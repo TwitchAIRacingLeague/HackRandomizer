@@ -17,7 +17,7 @@ https://discord.gg/JWU8D7V5cR
 
 Install python3, pip3
 
-Then clone the repo `https://github.com/TwitchAIRacingLeague/` pip install the following
+Then clone the repo `https://github.com/TwitchAIRacingLeague/retro` pip install the following
 
 ```pip3 install -e retro```
 
