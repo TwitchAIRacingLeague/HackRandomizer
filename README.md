@@ -31,6 +31,41 @@ Finally clone this repo and install the requirements
 
 You may have to tweak the controller inputs to make it work for your controller.
 
+I also had added this to the retro_env file.
+
+```
+def loadRom(self, game):
+        # This successfully loads a rom, however it doesn't jump to the "start" state as defined in the json file.
+        metadata = {}
+        rom = retro.data.get_romfile_path(game, retro.data.Integrations.STABLE)
+        metadata_path = retro.data.get_file_path(game, 'metadata.json', retro.data.Integrations.STABLE)
+
+        try:
+            with open(metadata_path) as f:
+                metadata = json.load(f)
+            if 'default_player_state' in metadata and self.players <= len(metadata['default_player_state']):
+                self.statename = metadata['default_player_state'][self.players - 1]
+            elif 'default_state' in metadata:
+                self.statename = metadata['default_state']
+            else:
+                self.statename = None
+        except (IOError, json.JSONDecodeError):
+            pass
+
+        self.gamename = game
+        if self.statename:
+            self.load_state(self.statename, retro.data.Integrations.STABLE)
+
+        self.em.loadRom(rom)
+
+        #self.em.configure_data(self.data)
+        #self.em.step()
+
+        self.reset()
+        obs, rew, done, info = self.step([0,0,0,0,0,0,0,0,0,0,0,0])
+```
+        
+
 ## Running
 ```python3 play.py```
 
